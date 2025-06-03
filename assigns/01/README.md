@@ -14,8 +14,8 @@ Then translate the code in lambda1.dats (which can be found in
 lectures/lecture-05-28) into Python3. You should follow the
 translation of `term_subst` done in lecture-05-27.
 
-You are expected to have all of your submitted in one file of the name
-`lambda1.py`; this file should be stored in the directory
+You are expected to have all of your submitted code in one file of the
+name `lambda1.py`; this file should be stored in the directory
 `assigns/01/MySolution`. Please visit the following page for
 information on creating a private repository of your own for this
 class:

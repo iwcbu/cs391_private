@@ -4,7 +4,7 @@
 
 ## How to submit?
 
-Please submit into the folder `Quiz01` in
+Please submit into the folder `Quiz01` on
 the Gradescope page for this class.
 
 ## Question 1 (10 points)
@@ -24,8 +24,8 @@ operations. You can find more details on this extension in
 ## Question 2 (20 points)
 
 Please implement a function `isPrime` in Python that tests whether a
-given integer is a prime number or not. Then represent your
-implementation of `isPrime` as a lambda-term in the same extended
+given integer is a prime number or not. Then represent _your
+implementation_ of `isPrime` as a lambda-term in the same extended
 lambda-calculus.
 
 ## Question 3 (100 points)
