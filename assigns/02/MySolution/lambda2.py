@@ -516,19 +516,149 @@ def term_if0_(tm1, tm2, tm3):
         term_app(tm1, term_lam("", tm2)), term_lam("", tm3)), chtru)
 
 #my implementation of opr
-#helpers for operators
-chnum_eq = \
+
+# subtracrion -
+chnum_sub = \
+    term_lam("m", term_lam("n", \
+        term_app( \
+        term_app(var_n, chnum_pre), \
+        var_m)))
+
+# Comparisons
+
+# greater than >
+chnum_gtt = \
+    term_lam("m", term_lam("n",
+        term_if0(
+            term_app(chnum_gtz, term_app(term_app(chnum_sub, var_m), var_n)),
+            chfls,
+            chtru
+            )    
+        )
+    )
+
+
+# less than <
+chnum_lst = \
+    term_lam("m", term_lam("n",
+        term_if0(
+            term_app(chnum_gtz, term_app(term_app(chnum_sub, var_n), var_m)),
+            chfls,
+            chtru
+            )    
+        )
+    )
+# equals =
+chnum_eqs = \
+    term_lam("m", term_lam("n", 
+        term_if0(term_app(term_app(chnum_gtt, var_m), var_n),
+                 chfls,
+                 term_if0(term_app(term_app(chnum_gtt, var_n), var_m),
+                          chfls,
+                          chtru)
+                )
+            )
+        )
+# greater than or equal to >=
+chnum_gte = \
+    term_lam("m", term_lam("n",
+        term_if0(term_app(term_app(chnum_gtt, var_m), var_n),
+                chtru,
+                term_if0(term_app(term_app(chnum_eqs, var_m), var_n),
+                    chtru,
+                    chfls)
+                )
+            )
+        )
+
+# less than of equal to <=
+chnum_lse = \
+    term_lam("m", term_lam("n",
+        term_if0(term_app(term_app(chnum_lst, var_m), var_n),
+                chtru,
+                term_if0(term_app(term_app(chnum_eqs, var_m), var_n),
+                    chtru,
+                    chfls),
+                )
+            )
+        )
+
+# not equals to !=
+chnum_neq = \
+    term_lam("m", term_lam("n",
+        term_if0(term_app(term_app(chnum_eqs, var_m), var_n),
+                chfls,
+                chtru
+                )
+            )
+        )
 
 
 
+# division
+chnum_div = \
+    term_fix("f", "m",  # f is the function name to call for recursion, m is the number being divided
+        term_lam("n",               # n is the divisor
+            term_if0(
+                term_app(chnum_gtz,
+                    term_app(term_app(chnum_sub, var_m), var_n)),
+                term_app(
+                    chnum_suc,
+                    term_app(
+                        term_app(term_var("f"),
+                            term_app(term_app(chnum_sub, var_m), var_n)
+                        ),
+                        var_n
+                    )
+                ),
+                int_tochnum(0)
+            )
+        )
+    )
+
+# modulus %
+chnum_mod = term_fix("f", "m", # same as previous
+    term_lam("n", 
+        term_if0(
+            term_app(chnum_gtz, term_app(term_app(chnum_sub, var_m), var_n)),
+            term_app( 
+                term_app(term_var("f"),
+                        term_app(term_app(chnum_sub, var_m), var_n)
+                ),
+                var_n
+            ),
+            var_m  # m is the remainder
+        )
+    )
+)
+
+
+# operation function
 def term_opr_(opr, args):
     if opr == "+" and len(args) == 2:
         return term_app(term_app(chnum_add, args[0]), args[1])
+    elif opr == "-" and len(args) == 2:
+        return term_app(term_app(chnum_sub, args[0]), args[1])
     elif opr == "*" and len(args) == 2:
         return term_app(term_app(chnum_mul, args[0]), args[1])
+    elif opr == "/" and len(args) == 2:
+        return term_app(term_app(chnum_div, args[0]), args[1])
+    elif opr == "%" and len(args) == 2:
+        return term_app(term_app(chnum_mod, args[0]), args[1])
+    elif opr == ">" and len(args) == 2:
+        return term_app(term_app(chnum_gtt, args[0]), args[1])
+    elif opr == "<" and len(args) == 2:
+        return term_app(term_app(chnum_lst, args[0]), args[1])
+    elif opr == "=" and len(args) == 2:
+        return term_app(term_app(chnum_eqs, args[0]), args[1])
+    elif opr == ">=" and len(args) == 2:
+        return term_app(term_app(chnum_gte, args[0]), args[1])
+    elif opr == "<=" and len(args) == 2:
+        return term_app(term_app(chnum_lse, args[0]), args[1])
+    elif opr == "!=" and len(args) == 2:
+        return term_app(term_app(chnum_neq, args[0]), args[1])
     else:
         raise ValueError(f"Unsupported operator or wrong arity: {opr}")
-
 
 def term_fix_(f00, x01, tmx):
     f = term_var("f")
