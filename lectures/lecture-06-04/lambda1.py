@@ -180,7 +180,7 @@ term_cmp = lambda a1, a2: term_opr("cmp", [a1, a2])
 # term_eval00(tm0: term): tval
 # #extern
 # fun
-# term_eval01(tm0: term, env: envx): tval
+# term_eval01(tm0: term, env: xenv): tval
 
 def term_eval00(tm0):
     return term_eval01(tm0, xenv_nil())
@@ -352,6 +352,7 @@ print("eval(term_dbl(int_1)) = " + str(term_eval00(term_app(term_dbl, int_1))))
 
 ##################################################################
 
+int_0 = term_int( 1 )
 int_1 = term_int( 1 )
 var_f = term_var("f")
 var_n = term_var("n")
