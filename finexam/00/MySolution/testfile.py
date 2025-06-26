@@ -1,4 +1,4 @@
-#factorial function
+# Factorial
 
 def fun104(arg0):
     tmp109 = 0
@@ -59,6 +59,29 @@ def fun105(arg0):
 
     return tmp133
 
+# Fibonacci Sequence 
+
+def fun107(arg0):
+    tmp134 = 1
+    tmp135 = arg0 <= tmp134
+
+    if tmp135:
+        tmp143 = arg0
+    else:
+        tmp136 = 1
+        tmp137 = arg0 - tmp136
+        tmp138 = fun107(tmp137)
+        tmp139 = 2
+        tmp140 = arg0 - tmp139
+        tmp141 = fun107(tmp140)
+        tmp142 = tmp138 + tmp141
+        tmp143 = tmp142
+
+    return tmp143
+
 print(fun104(5))
 print(fun105(7))
-print
+print(fun107(9))
+
+
+
